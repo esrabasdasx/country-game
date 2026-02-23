@@ -1,7 +1,19 @@
-let information = JSON.parse(localStorage.getItem("userInformation")) || [];
-let editIndex = null;
+const loginForm = document.querySelector('#loginForm');
 
-const name = document.querySelector('#userName');
-const password = document.querySelector('#password');
+loginForm.addEventListener('submit', function(event) {
+    event.preventDefault();
 
 
+
+const user = document.querySelector('#username').value;
+const pass = document.querySelector('#password').value;
+
+const userData = {
+    username: user,
+    password: pass
+};
+localStorage.setItem('activeUser', JSON.stringify(userData));
+
+
+window.location.href = "mainPage.html";
+});
