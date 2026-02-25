@@ -1,0 +1,14 @@
+* {
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #dea3bc;
+}
+
+.main-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+

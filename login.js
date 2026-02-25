@@ -15,5 +15,6 @@ const userData = {
 localStorage.setItem('activeUser', JSON.stringify(userData));
 
 
-window.location.href = "mainPage.html";
+window.location.href = "options.html";
 });
+

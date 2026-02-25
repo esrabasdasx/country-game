@@ -26,16 +26,16 @@ window.onload = async function() {
 
 function filterByDifficulty(countries, difficulty) {
   if (difficulty === "easy") {
-    return countries.filter(c => c.population > 50000000);
+    return countries.filter(c => c.population < 50000000);
   }
 
   if (difficulty === "medium") {
     return countries.filter(
-      c => c.population > 10000000 && c.population <= 50000000
+      c => c.population > 10000000 && c.population >= 50000000
     );
   }
 
-  return countries.filter(c => c.population <= 10000000);
+  return countries.filter(c => c.population > 50000000);
 }
 
 function showQuestion() {
@@ -43,7 +43,7 @@ function showQuestion() {
 
   document.getElementById("flagImage").src = country.flags.png;
   document.getElementById("questionNumber").innerText =
-    `Soru ${gameState.currentQuestion + 1}/10`;
+    `Question ${gameState.currentQuestion + 1}/10`;
 }
 
 function submitAnswer() {
@@ -75,15 +75,24 @@ function submitAnswer() {
   ) {
     questionScore += 10;
   }
-
+  
   gameState.score += questionScore;
   gameState.currentQuestion++;
+
+  document.getElementById("correctCountry").innerText = correct.name.common;
+  document.getElementById("correctCapital").innerText = correct.capital;
+  document.getElementById("correctPopulation").innerText = correct.population;
+
+ 
 
   if (gameState.currentQuestion >= 10) {
     finishGame();
   } else {
     showQuestion();
   }
+
+
+document.getElementById("formID").reset();
 }
 
 function finishGame() {

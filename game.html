@@ -3,27 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="game.css">
     <title>Game Page</title>
 </head>
 <body>
-    <div class="gameCard">
-        <form class="gameCard" onsubmit="event.preventDefault(); submitAnswer();">
+    <div class="main-card">
+        <div class="gameCard">
+            <form class="gameCard" id="formID" onsubmit="event.preventDefault(); submitAnswer();">
 
-        <h2 id="questionNumber"></h2>
-        <img id="flagImage" width="200" />
+            <h2 id="questionNumber"></h2>
+            <img id="flagImage" width="200" />
 
-        <br><br>
-        <input type="text" id="countryInput" placeholder="Ülke adı" required/>
-        <br><br>
-        <input type="text" id="capitalInput" placeholder="Başkent" required/>
-        <br><br>
-        <input type="number" id="populationInput" placeholder="Nüfus" required/>
-        <br><br>
+            <br><br>
+            <input type="text" id="countryInput" placeholder="Country" oninput="this.value = this.value.replace(/[^a-z]/g, '');"/>
+            <br><br>
+            <input type="text" id="capitalInput" placeholder="Capital" oninput="this.value = this.value.replace(/[^a-z]/g, '');"/>
+            <br><br>
+            <input type="number" min= "0" id="populationInput" placeholder="Population" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '');"/>
+            <br><br>
+            <button type="submit">Next</button>
+            </form>
+        </div> 
+        
+            <div id="result">
+                <p>Correct Answer</p>
+                <p>Country: <span id="correctCountry"></span></p>
+                <p>Capital: <span id="correctCapital"></span></p>
+                <p>Population: <span id="correctPopulation"></span></p>
+            </div>
 
-        <button type="submit">Gönder</button>
 
-        </form>
-    
+    </div>    
+        
+        
+
     <script src="game.js"></script>
 </body>
 </html>
