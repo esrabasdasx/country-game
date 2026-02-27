@@ -1,101 +1,97 @@
 let gameState = {
   currentQuestion: 0,
-  score: 0,
   countries: []
 };
 
-window.onload = async function() {
+window.onload = async function(){
+const settings = JSON.parse(localStorage.getItem("gameSettings"));
+const difficulty = settings?.difficulty || "easy";
 
-  const settings = JSON.parse(localStorage.getItem("gameSettings"));
-  const difficulty = settings?.difficulty || "easy";
+const response = await fetch(
+  "https://restcountries.com/v3.1/all?fields=name,capital,population,flags"
+);
 
-  const response = await fetch(
-    "https://restcountries.com/v3.1/all?fields=name,capital,population,flags"
-  );
+let countries = await response.json();
+countries = filterByDifficulty(countries,difficulty);
+gameState.countries = countries.sort(() => 0.5 - Math.random()).slice(0,10);
 
-  let countries = await response.json();
-
-  countries = filterByDifficulty(countries, difficulty);
-
-  gameState.countries = countries
-    .sort(() => 0.5 - Math.random())
-    .slice(0, 10);
-
-  showQuestion();
+showQuestion();
 };
 
-function filterByDifficulty(countries, difficulty) {
-  if (difficulty === "easy") {
-    return countries.filter(c => c.population < 50000000);
+function filterByDifficulty(countries, difficulty){
+  if (difficulty === "easy"){
+    return countries.filter(c => c.population < 500000000);
   }
 
-  if (difficulty === "medium") {
-    return countries.filter(
-      c => c.population > 10000000 && c.population >= 50000000
-    );
+  if(difficulty === "medium"){
+    return countries.filter(c => c.population > 100000000 && c.population >= 500000000);
   }
-
   return countries.filter(c => c.population > 50000000);
 }
 
-function showQuestion() {
+function showQuestion(){
   const country = gameState.countries[gameState.currentQuestion];
 
   document.getElementById("flagImage").src = country.flags.png;
-  document.getElementById("questionNumber").innerText =
-    `Question ${gameState.currentQuestion + 1}/10`;
+  document.getElementById("questionNumber").innerText = `Question ${gameState.currentQuestion + 1}/10`;
 }
 
-function submitAnswer() {
+function submitAnswer(){
   const correct = gameState.countries[gameState.currentQuestion];
+
+  toggleInputs(true);
 
   const countryInput = document.getElementById("countryInput").value.trim();
   const capitalInput = document.getElementById("capitalInput").value.trim();
-  const populationInput = parseInt(
-    document.getElementById("populationInput").value
-  );
+  const populationInput = parseInt(document.getElementById("populationInput").value) || 0;
 
   let questionScore = 0;
-
-  if (
-    countryInput.toLowerCase() === correct.name.common.toLowerCase()
-  ) {
-    questionScore += 10;
-  }
-
-  if (
-    capitalInput.toLowerCase() === correct.capital[0].toLowerCase()
-  ) {
-    questionScore += 10;
-  }
+  if(countryInput.toLowerCase() === correct.name.common.toLowerCase())questionScore += 10;
+  if(correct.capital && capitalInput.toLowerCase() === correct.capital[0].toLowerCase()) questionScore += 10;
 
   const tolerance = correct.population * 0.1;
-  if (
-    Math.abs(correct.population - populationInput) <= tolerance
-  ) {
-    questionScore += 10;
-  }
-  
+  if(Math.abs(correct.population - populationInput) <= tolerance) questionScore += 10;
+
   gameState.score += questionScore;
-  gameState.currentQuestion++;
 
   document.getElementById("correctCountry").innerText = correct.name.common;
-  document.getElementById("correctCapital").innerText = correct.capital;
-  document.getElementById("correctPopulation").innerText = correct.population;
+  document.getElementById("correctCapital").innerText = correct.capital ? correct.capital[0]: "N/A";
+  document.getElementById("correctPopulation").innerText = correct.population.toLocaleString();
 
- 
-
-  if (gameState.currentQuestion >= 10) {
-    finishGame();
-  } else {
-    showQuestion();
-  }
-
-
-document.getElementById("formID").reset();
+  //cevaplar yan panelde gösterilir.
+  document.getElementById("result").classList.add("active");
 }
 
-function finishGame() {
+/*function saveGameState(){
+  localStorage.setItem("currentGameState", JSON.stringify(gameState));
+}*/
+
+//diğer soruya geçildiğinde yaşancak işlemler:
+function nextQuestion(){
+  document.getElementById("result").classList.remove("active");
+
+  //cevapları sıfılar ve kilidi açar.
+  document.getElementById("formID").reset();
+  toggleInputs(false);
+
+  //sonraki soruya geçmeyi sağlar.
+  gameState.currentQuestion++;
+
+  if(gameState.currentQuestion >= 10){
+    finishGame();
+  }else{
+    showQuestion();
+  }
+}
+
+function toggleInputs(isDisabled){
+  document.getElementById("countryInput").disabled = isDisabled;
+  document.getElementById("capitalInput").disabled = isDisabled;
+  document.getElementById("populationInput").disabled = isDisabled;
+  document.getElementById("submitBtn").disabled = isDisabled;
+}
+
+function finishGame(){
   const activeUser = JSON.parse(localStorage.getItem("activeUser"));
   let users = JSON.parse(localStorage.getItem("users"));
 
@@ -105,9 +101,7 @@ function finishGame() {
     date: new Date().toISOString()
   });
 
-  users = users.map(u =>
-    u.username === activeUser.username ? activeUser : u
-  );
+  users = users.map(u => u.username === activeUser.username ? activeUser: u);
 
   localStorage.setItem("users", JSON.stringify(users));
   localStorage.setItem("activeUser", JSON.stringify(activeUser));
