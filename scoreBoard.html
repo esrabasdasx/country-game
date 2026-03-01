@@ -3,21 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="scoreBoard.css">
     <title>Score Board</title>
+    <link rel="stylesheet" href="scoreBoard.css">
 </head>
 <body>
-    <div class="scoreBoardTable">
-        <div class="scoreTable">
-            <h2>En Yüksek Skor</h2>
-        <div id="bestScore"></div>
+    <div class="container">
+        <h1>Score Board</h1>
 
-            <h2>Son 10 Oyun</h2>
-        <div id="lastGames"></div>
-            
+        <div class="high-score-card">
+            <h3>Personal Record</h3>
+            <p id="highScoreDisplay">0</p>
         </div>
 
+        <div class="table-container">
+            <h3>Last 10 Game</h3>
+            <br>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Level</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="scoreList">
+                    </tbody>
+            </table>
+        </div>
+        <br>
+
+        <div class="actions">
+            <button onclick="window.location.href='options.html'">Back Menu</button>
+        </div>
     </div>
-    
+    <script src="scoreBoard.js"></script>
 </body>
 </html>

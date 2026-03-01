@@ -1,0 +1,74 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #dea3bc;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.scoreBoardTable{
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+.container{
+    background-color: #ba879c;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px;
+    text-align: center;
+
+}
+.difficulty-tag.easy { color: green; }
+.difficulty-tag.medium { color: orange; }
+.difficulty-tag.difficult { color: red; }
+
+
+/* Tablo genel yerleşimi */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Kenar çizgilerini birleştirir */
+    margin-top: 15px;
+}
+
+/* Başlıklar ve hücreler için boşluk */
+th, td {
+    padding: 12px 8px; /* Dikey ve yatay boşluk bırakır */
+    text-align: center; /* Verileri sütun ortasına hizalar */
+}
+
+/* Zorluk seviyesi etiketi için estetik dokunuş */
+.difficulty-tag {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+/* Skor sütununu biraz daha belirgin yapalım */
+td:last-child {
+    font-weight: bold;
+}
+
+.high-score-card {
+    background: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+}
+#highScoreDisplay {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4a148c; /* Morumsu ton */
+}

@@ -7,7 +7,7 @@
 
 body {
     background-color: #dea3bc;
-    height: 100vb;
+    height: 100vh;
     display: flex;
     /* body içindeki verilerin ortalanmasını sağlar. */
     align-items: center;

@@ -11,3 +11,12 @@ function selectDifficulty(level) {
 
   window.location.href = "game.html";
 }
+
+
+function backPage(){
+  window.history.back();
+
+}
+
+
+
